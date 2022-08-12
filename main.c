@@ -14,8 +14,10 @@ int WinMain(int argc, char **argv){
 
     int imageWidth, imageHeight, colorChannel;
     char *bytes = stbi_load("image/2.jpg", &imageWidth, &imageHeight, &colorChannel, 0);
-    if(!bytes)
+    if(!bytes){
+        glfwTerminate();
         return -1;
+    }
 
     int windowWidth = imageWidth/2, windowHeight = imageHeight/2;
     GLFWwindow *window = glfwCreateWindow(windowWidth, windowHeight, "Test", 0, 0);
