@@ -12,7 +12,12 @@ int WinMain(int argc, char **argv){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    const int windowWidth = 1280, windowHeight = 720;
+    int imageWidth, imageHeight, colorChannel;
+    char *bytes = stbi_load("image/2.jpg", &imageWidth, &imageHeight, &colorChannel, 0);
+    if(!bytes)
+        return -1;
+
+    int windowWidth = imageWidth/2, windowHeight = imageHeight/2;
     GLFWwindow *window = glfwCreateWindow(windowWidth, windowHeight, "Test", 0, 0);
     if(!window){
         glfwTerminate();
@@ -26,18 +31,11 @@ int WinMain(int argc, char **argv){
 
     GLuint program = setupProgram("shader/vertex", "shader/fragment");
 
-    int imageWidth, imageHeight, colorChannel;
-    char *bytes = stbi_load("image/2.jpg", &imageWidth, &imageHeight, &colorChannel, 0);
-    if(!bytes)
-        return -1;
-
-    float unitWidth = 0.9f, uintHeight = unitWidth*((float)windowWidth/(float)windowHeight)*((float)imageHeight/(float)imageWidth);
-
     GLfloat vertices[] ={
-        0-unitWidth,    0-uintHeight,   0.0f, 0.0f, 1.0f,
-        unitWidth,      0-uintHeight,   0.0f, 1.0f, 1.0f,
-        unitWidth,      uintHeight,     0.0f, 1.0f, 0.0f,
-        0-unitWidth,    uintHeight,     0.0f, 0.0f, 0.0f
+        -1.0f,  -1.0f,  0.0f, 0.0f, 1.0f,
+        1.0f,   -1.0f,  0.0f, 1.0f, 1.0f,
+        1.0f,   1.0f,   0.0f, 1.0f, 0.0f,
+        -1.0f,  1.0f,   0.0f, 0.0f, 0.0f
     };
 
     GLuint indices[] ={
@@ -52,11 +50,11 @@ int WinMain(int argc, char **argv){
 
     glGenBuffers(1, &arrayBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer);
-    glNamedBufferData(arrayBuffer, sizeof(vertices), vertices,  GL_STATIC_DRAW);
+    glNamedBufferData(arrayBuffer, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     glGenBuffers(1, &elementArraybuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArraybuffer);
-    glNamedBufferData(elementArraybuffer, sizeof(indices), indices,  GL_STATIC_DRAW);
+    glNamedBufferData(elementArraybuffer, sizeof(indices), indices, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(float), 0);
     glEnableVertexAttribArray(0);
@@ -71,7 +69,7 @@ int WinMain(int argc, char **argv){
 
     GLuint scale = glGetUniformLocation(program, "scale");
 
-    GLuint texture = setupTexture(GL_TEXTURE0, GL_TEXTURE_2D, GL_RGB, imageWidth, imageHeight, bytes);
+    GLuint texture = setupTexture(GL_TEXTURE0, GL_TEXTURE_2D, colorChannel+6404, imageWidth, imageHeight, bytes);
 
     stbi_image_free(bytes);
 
@@ -80,8 +78,8 @@ int WinMain(int argc, char **argv){
     glUniform1i(tex0Uni, 0);
 
     while(!glfwWindowShouldClose(window)){
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        //glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        //glClear(GL_COLOR_BUFFER_BIT);
         glUseProgram(program);
         glUniform1f(scale, 0.0f);
         glBindTexture(GL_TEXTURE_2D, texture);
