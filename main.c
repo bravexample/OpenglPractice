@@ -31,7 +31,7 @@ int WinMain(){
     gladLoadGL();
     glViewport(0, 0, windowWidth, windowHeight);
 
-    GLuint program = setupProgram("shader/vertex", "shader/fragment");
+    GLuint program = setupProgram("shader/vertex.set", "shader/fragment.set");
 
     GLfloat vertices[] ={
         -1.0f,  -1.0f,  0.0f, 0.0f, 1.0f,
