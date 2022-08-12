@@ -1,5 +1,5 @@
 # OpenglPractice
-Just a practice of OpenGL with GLFW3.
+Just a practice of OpenGL with GLFW3.  
 Require OpenGL 4.6 and SSE2.
 
 ## Build
