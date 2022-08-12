@@ -4,7 +4,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-int WinMain(int argc, char **argv){
+int WinMain(){
     if(!glfwInit())
         return -1;
 
@@ -13,14 +13,14 @@ int WinMain(int argc, char **argv){
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     int imageWidth, imageHeight, colorChannel;
-    char *bytes = stbi_load("image/2.jpg", &imageWidth, &imageHeight, &colorChannel, 0);
+    char *bytes = stbi_load("image/1.png", &imageWidth, &imageHeight, &colorChannel, 0);
     if(!bytes){
         glfwTerminate();
         return -1;
     }
 
     int windowWidth = imageWidth/2, windowHeight = imageHeight/2;
-    GLFWwindow *window = glfwCreateWindow(windowWidth, windowHeight, "Test", 0, 0);
+    GLFWwindow *window = glfwCreateWindow(windowWidth, windowHeight, "OpenglPractice", 0, 0);
     if(!window){
         glfwTerminate();
         return -1;
