@@ -4,7 +4,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-int main(int argc, char **argv){
+int WinMain(int argc, char **argv){
     if(!glfwInit())
         return -1;
 
@@ -80,7 +80,7 @@ int main(int argc, char **argv){
     glUniform1i(tex0Uni, 0);
 
     while(!glfwWindowShouldClose(window)){
-        glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         glUseProgram(program);
         glUniform1f(scale, 0.0f);
